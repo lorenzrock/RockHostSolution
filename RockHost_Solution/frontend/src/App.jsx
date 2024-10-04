@@ -22,9 +22,9 @@ function App() {
 
   function setBodyWidth() {
     if (navIsOpen && body.current) {
-      body.current.style.width = "calc(100vw - 200px)"
+      body.current.style.paddingRight = "220px"
     } else {
-      body.current.style.width = "100vw"
+      body.current.style.paddingRight = "0"
     }
   }
 
