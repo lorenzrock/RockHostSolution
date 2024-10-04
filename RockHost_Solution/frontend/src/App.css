@@ -1,0 +1,6 @@
+.body {
+    position: relative;
+    height: fit-content;
+    width: fit-content;
+    background-color: var(--bg-coloer);
+}

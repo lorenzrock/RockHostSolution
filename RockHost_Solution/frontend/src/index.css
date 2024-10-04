@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: var(--accent-color01);
+}
+:root {
+  --bg-coloer: #0A090C;
+  --bg-color01: #03221E; 
+  --accent-color: #1AEAD2;
+  --accent-color01: #DBD3D8;
+  --border-r: 6px; 
+  
+  font-size: 12px;
+  font-family: "Mplus_b", Arial, Helvetica, sans-serif;
+}
+html {
+  scroll-behavior: smooth;
+}
+/* Fonts */
+
+/* Regular */
+@font-face {
+  font-family: "Mplus_r";
+  src: url(src/assets/fonts/MPLUSRounded1c-Regular.woff);
+}
+@font-face {
+  font-family: "Robo_r";
+  src: url(src/assets/fonts/Roboto-Regular.woff);
+}
+/* Bold*/
+@font-face {
+  font-family: "Mplus_b";
+  src: url(src/assets/fonts/MPLUSRounded1c-Bold.woff);
+}
+@font-face {
+  font-family: "Mplus_bb";
+  src: url(src/assets/fonts/MPLUSRounded1c-ExtraBold.woff);
+}
+@font-face {
+  font-family: "Robo_b";
+  src: url(src/assets/fonts/Roboto-Bold.woff2);
+}
