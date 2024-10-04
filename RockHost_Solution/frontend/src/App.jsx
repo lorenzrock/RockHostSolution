@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext } from 'react'
+import React, { useState, useContext, createContext, useEffect, useRef} from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import './App.css'
 import ThemeSwitch from './ThemeSwitch/ThemeSwitch';
@@ -9,12 +9,50 @@ export const Context = React.createContext(null);
 
 
 function App() {
-  
+  const [navIsOpen, setNavOpenState] = useState(false);
+  const body = useRef(null);
+
+  useEffect(() => {
+    setBodyWidth();
+  }, [navIsOpen])
+
+
+
+
+
+  function setBodyWidth() {
+    if (navIsOpen && body.current) {
+      body.current.style.width = "calc(100vw - 200px)"
+    } else {
+      body.current.style.width = "100vw"
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
-    <>
-      <Context.Provider value={[Context]}>
+      <Context.Provider value={[navIsOpen, setNavOpenState]}>
         <BrowserRouter>
-          <div className="body">
+          <div className="body" ref={body} >
             <ThemeSwitch />
             <Nav />
             <Routes>
@@ -30,7 +68,6 @@ function App() {
           </div>
         </BrowserRouter>
       </Context.Provider>
-    </>
   )
 }
 

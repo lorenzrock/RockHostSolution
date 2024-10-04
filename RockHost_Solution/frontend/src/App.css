@@ -1,6 +1,14 @@
 .body {
     position: relative;
     height: fit-content;
-    width: fit-content;
+    width: calc(100vw - 200px);
     background-color: var(--bg-coloer);
+    display: block;
+    margin-right: 200px;
+
+    transition-property: width;
+    transition-duration: 0.3s;
+    transition-delay: 0.5s;
+    transition-timing-function: ease-in-out;
+
 }
