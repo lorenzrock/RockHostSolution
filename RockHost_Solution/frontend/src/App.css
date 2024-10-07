@@ -4,6 +4,7 @@
     width: 100vw;
     background-color: var(--bg-coloer);
     display: block;
+    max-width: 100%;
 
     transition-property: width;
     transition-duration: 0.3s;

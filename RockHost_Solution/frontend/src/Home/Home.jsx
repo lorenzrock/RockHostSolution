@@ -5,12 +5,18 @@ import styles from "./Home.module.css"
 import Cloudspeed from '../assets/icons/cloudspeed.svg';
 
 function Home() {
-
+/* <div className={styles.imgcontainer}>
+                <img className={styles.img0} src="src\assets\imges\Server_Stack_00.png" />
+                <img className={styles.img1} src="src\assets\imges\Server_Stack_icon.png"/>
+            </div>      */
 
     return (
         <>
-        <section id="Home">            
+        <section id={styles.Home}>
+            <div className={styles.imgcontainer}>
                 <img className={styles.img0} src="src\assets\imges\Server_Stack_00.png" />
+                <img className={styles.img1} src="src\assets\imges\Server_Stack_icon.png"/>
+            </div>
             <header className={styles.header}>
                 <img src="\src\assets\imges\Serverstack_background.webp" alt="background_img" />
                 <div>

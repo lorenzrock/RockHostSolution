@@ -1,9 +1,8 @@
-section {
+#Home {
     width: 100%;
     height: 100vh;
     background-color: var(--bg-color);
     overflow: hidden;
-    
 }
 .homeContentContainer{
     box-shadow: none;
@@ -16,7 +15,8 @@ section {
 }
 .header img {
     position: absolute;
-    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
     filter: brightness(0.2);
 }
 .header div {
@@ -150,4 +150,20 @@ section {
     transform: rotate(-35deg);
     width: 30%;
     opacity: 0.2;
+}
+.img1 {
+    position: absolute;
+    bottom: -0;
+    left: 0;
+    transform: rotate(-35deg);
+    width: 60%;
+    opacity: 0.2;
+}
+.imgcontainer {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
 }

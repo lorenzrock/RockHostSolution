@@ -4,6 +4,7 @@ import './App.css'
 import ThemeSwitch from './ThemeSwitch/ThemeSwitch';
 import Nav from './Nav/Nav';
 import Home from './Home/Home';
+import GameServers from './GameServers/GameServers';
 export const Context = React.createContext(null);
 
 
@@ -32,23 +33,6 @@ function App() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   return (
       <Context.Provider value={[navIsOpen, setNavOpenState]}>
         <BrowserRouter>
@@ -57,10 +41,16 @@ function App() {
             <Nav />
             <Routes>
               <Route path="/" element={
-                <Home />
+                <>
+                  <Home />
+                  <GameServers />
+                </>
               }>
               <Route path="/home" element={
-                <Home />
+                <>
+                  <Home />
+                  <GameServers />
+                </>
               }></Route>
 
               </Route>

@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   color: var(--accent-color01);
+  /* max-width: 100%; */
   font-family: "Mplus_b", Arial, Helvetica, sans-serif;
 }
 :root {
@@ -11,7 +12,6 @@
   --accent-color: #1AEAD2;
   --accent-color01: #DBD3D8;
   --border-r: 6px; 
-  
   font-size: 12px;
   font-family: "Mplus_b", Arial, Helvetica, sans-serif;
 }
