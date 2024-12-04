@@ -1,0 +1,13 @@
+Flask
+flask
+Flask-SQLAlchemy
+Flask-WTF
+requests
+mailjet-rest
+flask-migrate
+pymysql
+flask-login
+flask-bcrypt
+marshmallow
+python-dotenv
+Flask-Cors
