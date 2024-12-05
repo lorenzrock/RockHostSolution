@@ -5,7 +5,7 @@ function Registration() {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [birthday, setBirthday] = useState("test")
+    const [birthday, setBirthday] = useState("")
     const [consent, setConsent]  = useState(false)
 
 
@@ -61,6 +61,8 @@ function Registration() {
                 <input type="text" placeholder="Enter: Username" onChange={(e) => setUsername(e.target.value)} value={username}></input>
                 <input type="email" placeholder="Enter: Email" onChange={(e) => setEmail(e.target.value)} value={email}></input>
                 <input type="password" placeholder="Enter: Password" onChange={(e) => setPassword(e.target.value)} value={password}></input>
+                <input type="date" onChange={(e) => setBirthday(e.target.value)} value={birthday} ></input>
+                <input type="checkbox" onChange={(e) => setConsent(e.target.checked)} value={consent} ></input>
                 <input type="Submit" ></input>
             </form>
 
