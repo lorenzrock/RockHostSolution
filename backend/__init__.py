@@ -4,16 +4,21 @@ from .config import Config
 from dotenv import load_dotenv
 from .models import db, Users
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
-
+from flask_jwt_extended import JWTManager
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_session import Session
 
 
 #loads the .env file
 load_dotenv()
 # add password cryptonig
 bcrypt = Bcrypt()
-# add LoginManager from flask
-login_manager = LoginManager()
+limiter = Limiter(
+    get_remote_address,
+    storage_uri="redis://localhost:6379"
+)
+session = Session()
 
 
 
@@ -33,37 +38,21 @@ def create_app():
     bcrypt.init_app(app)
     app.bcrypt = bcrypt
 
-    # init LoginManager
-    login_manager.init_app(app)
+    # Adding Login/Registrate/... helper / init it 
+    jwt = JWTManager(app)
 
-    @login_manager.user_loader
-    def load_user(user_id):
-        return Users.query.filter_by(id=user_id).first()
+    # adding Flask Limmiter to limmit the exece to a cirten number
+    limiter.init_app(app)
+
+
+    #adding Flask Session to the app for inmemory serverside storage
+    session.init_app(app)
+
     
-    @login_manager.unauthorized_handler
-    def unauthorized():
-    # Return a 401 status with a custom message
-        return jsonify({"error": "User is not authenticated"}), 401
-
-
-
-
-
     #adding the DB and createin the tables if they does not alredy exist
     db.init_app(app)
     with app.app_context():
         db.create_all()
-
-
-
-
-
-
-
-
-
-
-
 
 
 

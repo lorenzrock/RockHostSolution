@@ -6,8 +6,12 @@ requests
 mailjet-rest
 flask-migrate
 pymysql
-flask-login
 flask-bcrypt
 marshmallow
 python-dotenv
 Flask-Cors
+flask_restx
+flask-jwt-extended
+Flask-Limiter
+Flask-Session
+redis
