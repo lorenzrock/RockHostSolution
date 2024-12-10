@@ -24,3 +24,7 @@ class Config:
     SESSION_KEY_PREFIX = 'myapp:'  # Optional, adds a prefix to Redis keys
     SESSION_REDIS = redis.from_url('redis://localhost:6379')  # Redis connection URL
     PERMANENT_SESSION_LIFETIME = timedelta(hours=1)
+
+    # SESSION_COOKIE_SECURE = True in production to True for https
+    # SESSION_COOKIE_HTTPONLY = True production
+    # SESSION_COOKIE_SAMESITE = 'Strict' production

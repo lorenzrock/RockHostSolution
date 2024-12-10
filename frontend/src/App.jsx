@@ -1,13 +1,36 @@
-import { useState } from 'react'
+import { useState, createContext } from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import './App.css'
 import AccountManagement from './AccountManagement/AccountManagement'
+import Dashboard from './Dashboard/Dashboard';
+
+
+export const UserContext = createContext({});
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user , setUser] = useState({
+    id: null,
+    name: ""
+  })
+  
+  
+
 
   return (
     <>
-      <AccountManagement />
+      <UserContext.Provider value={{user, setUser}}>
+
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={
+                <AccountManagement />
+            }></Route>
+            <Route path="/dashboard" element={
+              <Dashboard />
+            }></Route>
+          </Routes>
+        </BrowserRouter>
+      </UserContext.Provider>
     </>
   )
 }

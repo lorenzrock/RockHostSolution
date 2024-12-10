@@ -1,11 +1,19 @@
-import { useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
+import { UserContext } from "../App"
+
+
 
 
 function Login() {
     
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
+    
+    const {user, setUser} = useContext(UserContext)
 
+    useEffect(() => {
+        console.log(user)
+    }, [user])
 
 
 
@@ -25,22 +33,23 @@ function Login() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
+            credentials: "include"
         });
 
         const responseData = await response.json()
 
-        if (response.ok) {
-            console.log("ok")
-            console.log(responseData)
+        if (response.ok) {                        
+            setUser(() => ({
+                id: responseData.user.id,
+                name: responseData.user.username
+            }))
+            window.location.pathname = responseData.url
+            
         } else {
             console.log(responseData.message)
         }
 
-        
-
-
-        
     }
 
 

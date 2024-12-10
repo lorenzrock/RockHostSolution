@@ -32,7 +32,7 @@ def create_app():
 
     app.config.from_object(Config)
     # Enable CORS for all routes
-    CORS(app)
+    CORS(app,supports_credentials=True, origins="http://localhost:5173")
 
     # For sercure storege of the PW
     bcrypt.init_app(app)

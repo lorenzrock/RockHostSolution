@@ -7,7 +7,7 @@ from mailjet_rest import Client
 
 
 
-def generate_response(code, message, url=None, error=None): 
+def generate_response(code, message, url=None, error=None, user=None): 
     response = {
         "code": code,
         "message": message
@@ -16,6 +16,9 @@ def generate_response(code, message, url=None, error=None):
         response[error] = error
     if url:
         response["url"] = url
+
+    if user:
+        response["user"] = user
     return jsonify(response), code
 
 

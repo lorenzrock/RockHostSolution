@@ -146,7 +146,29 @@ def login():
         if not user.verify_password(password):
             return generate_response(400, "Username or Password are incorrect")
         
-    session["user_id"] = user.id
+
+        session["user_id"] = user.id
+        
+        user_data = {
+            "id": session["user_id"],
+            "username": user.username
+        }
 
 
-    return generate_response(200, session["user_id"])
+
+    return generate_response(200, "Login Sucessfully", user=user_data, url="/dashboard")
+
+@bp.route("/verify-session", methods=["GET"])
+def verify_session():
+
+    user_id = session.get("user_id")
+
+    if user_id:
+        user = {
+            "id": 1,
+            "name": "Test_user"
+        }
+
+        return jsonify(user)
+    
+    return jsonify({"message": "Error sseion???"})
