@@ -3,6 +3,7 @@ import { UserContext } from "../App";
 
 
 
+
 function Dashboard() {
     
     const {user, setUser} = useContext(UserContext)
@@ -22,10 +23,22 @@ function Dashboard() {
 
                 const data = await response.json()
                 if (response.ok) {
-                    console.log("Still loged in")
+                    console.log(data)
+                    setUser({
+                        id: data.user.id,
+                        username: data.user.name
+                    })
+                } else {
+                    if (data.url) {
+                        window.location.pathname = data.url    
+                    } else {
+                        window.location.pathname = "/"    
+                    }             
+                    
                 }
             }
             catch (error) {
+                
                 console.log(error)
             }
 
@@ -33,11 +46,41 @@ function Dashboard() {
 
         checkSession()
         console.log(user)
-    }, [user])
+    }, [])
+
+    const handleDellUser = async () => {
+
+        const url = "http://localhost:5000/auth/del"
+        try {
+            const response = await fetch(url, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            })
+
+            const data = await response.json()
+
+            if (response.ok) {
+                console.log(data)
+                console.log("User Deleted")
+            } else {
+                console.log("Error")
+            }
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+    }
+
 
     return (
         <>
             <h1>Welcom {user.username}</h1>
+
+            <button onClick={handleDellUser} >Del User</button>
         </>
     )
 }

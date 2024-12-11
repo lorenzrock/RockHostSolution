@@ -8,6 +8,9 @@ from flask_jwt_extended import create_access_token, decode_token
 from flask_jwt_extended.exceptions import JWTDecodeError
 from backend import limiter
 from jwt import ExpiredSignatureError
+import uuid
+from sqlalchemy.exc import IntegrityError
+from functools import wraps
 
 bp = Blueprint("auth", __name__)
 
@@ -58,7 +61,11 @@ def registration():
     try:
         db.session.add(new_User)
         db.session.commit()
-    except:
+    except IntegrityError as e:
+        logging.error(f"Database error: {e}")
+
+    except Exception as e:
+        logging.error(f"Database error: {e}")
         return generate_response(500, "Pls Try again internal Server Error", "Pls Try again internal server Error")
     
     # Sending Verification Link via Mailjet 
@@ -67,14 +74,17 @@ def registration():
         send_verification_email(email, username, verification_link)
     except:
         db.session.rollback()
-        generate_response(500, "Internal server Errro Pls Try again", "Internal server error")
-        
-    
+        return generate_response(500, "Internal server Errro Pls Try again", "Internal server error")
+    added_user = Users.query.filter_by(email=email).first()
+
+    return generate_response(201, f"User Succesfully added: {added_user.username}. Pls Check your email and Verify your account.")
 
 
-        added_user = Users.query.filter_by(email=email).first()
 
-    return generate_response(201, f"User {verification_link} Succesfully added. Pls Check your email and Verify your account.")
+
+
+
+
 
 @limiter.limit("10 per minute")
 @bp.route("/verify_email/<token>", methods=["GET"])
@@ -116,6 +126,37 @@ def verify_email(token):
         return generate_response(500, "Internal server error.")
     
 
+def authorized_user_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        user_id = session.get("user_id")
+        if not user_id:
+            return generate_response(401, "Unauthorized", "/" ,"Please log in to access this resource.")
+        try:
+            user_id = uuid.UUID(user_id)
+            user = Users.query.filter_by(id=user_id).first()
+            if not user:
+                return generate_response(404, "User not found", "Invalid session.")
+        except Exception as e:
+            logging.error(e)
+            return generate_response(500, "Internal Server Error", str(e))
+        return func(user, *args, **kwargs)  # Pass the user object to the wrapped function
+    return wrapper
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @bp.route("/login", methods=["POST"])
 def login():
@@ -147,7 +188,7 @@ def login():
             return generate_response(400, "Username or Password are incorrect")
         
 
-        session["user_id"] = user.id
+        session["user_id"] = str(user.id)
         
         user_data = {
             "id": session["user_id"],
@@ -162,13 +203,45 @@ def login():
 def verify_session():
 
     user_id = session.get("user_id")
-
-    if user_id:
-        user = {
-            "id": 1,
-            "name": "Test_user"
-        }
-
-        return jsonify(user)
     
-    return jsonify({"message": "Error sseion???"})
+
+    if not user_id:
+        logging.warning("Session expired or missing.")
+        return generate_response(404, "Session expired", "/", "Session expired")
+
+    try:
+        user_id = uuid.UUID(user_id)
+    except ValueError:
+        return generate_response(400, "Invalid user ID format", "/", "Invalid session")
+
+    user = Users.query.filter_by(id=user_id).first()
+
+    if not user:
+        return generate_response(404, "User not found")
+    
+    user_data = {
+        "id": user.id,
+        "name": user.username
+    }
+
+    return generate_response(200, "Still logedin", user=user_data)
+
+
+
+
+@bp.route("/del", methods=["DELETE"])
+@authorized_user_required
+def delite_user(user):
+    try:
+        db.session.delete(user)
+        db.session.commit()
+    except Exception as e:
+        logging.error(f"Database Error: {e}")
+        db.session.rollback()
+        return generate_response(409, "Internal Server error")
+        
+    
+    return jsonify({"user": f"{user.username} deleted"})
+
+    
+    
